@@ -5,8 +5,9 @@ Created on Sun Oct 25 19:28:17 2020
 @author: truet
 """
 import praw
-from bs4 import BeautifulSoup as bs
-import requests
+import subreddit_list
+from collections import Counter
+
 
 class PoliticsStatistics:
     
@@ -22,6 +23,7 @@ class PoliticsStatistics:
 
     def retrieve_usernames(self):
         reddit = self.credentials()
+        #test url
         url = "https://old.reddit.com/r/ScottishPeopleTwitter/comments/ji0s78/she_was_lucky/"
         submission = reddit.submission(url=url)
         return submission
@@ -34,15 +36,28 @@ class PoliticsStatistics:
         return usernames
     
     
-    def scrape_analyser(self):
+    def users_top_10(self):
+        client = self.credentials()
+        usernames = self.store_usernames()
+        user_data = []
+        for username in usernames:
+            user = praw.reddit.Redditor(client, username)
+            history = [post.subreddit.display_name for post in user.new(limit=None)]
+            counts = Counter(history).most_common(10)
+            user_data.append({username:dict(counts)})
         
 
+t = PoliticsStatistics()
+print(len(t.store_usernames()))
+            
 
 
 
 
 
 
-PoliticsStatistics().store_usernames()
+
+
+
 
 

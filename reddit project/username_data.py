@@ -26,11 +26,10 @@ def username(username):
     controversy_score = driver.find_element_by_xpath('//div[@class="core-summary d-flex flex-wrap justify-content-center"]/div[3]').get_attribute('data-value')
     
     user_subs = [reddit.split(' ')[0][3:] for reddit in reddits]
-    driver.close()
     user_data = dict(username = username,
                      subs = user_subs,
                      score = controversy_score)
-    
+    driver.close()
     return user_data
 
 
