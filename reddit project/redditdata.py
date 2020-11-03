@@ -10,7 +10,7 @@ from multiprocessing import Process, Queue
 from multiprocessing.dummy import Pool
 import sys
 
-users_data = []
+users_data = {}
 
 def credentials():
     reddit = praw.Reddit(
@@ -32,8 +32,10 @@ def retrieve_usernames():
 def store_usernames():
     submission = retrieve_usernames()
     all_comments = submission.comments.list()
-    usernames = {str(comment.author) for comment in all_comments}
-    usernames = list(usernames)
+    usernames = []
+    for comment in all_comments:
+        if str(comment.author) not in usernames:
+            usernames.append(str(comment.author))
     if len(usernames) > 100:
         usernames = usernames[:100]
     return usernames
@@ -43,20 +45,19 @@ def users_top_10(username):
     client = credentials()
     user = praw.reddit.Redditor(client, username)
     history = [post.subreddit.display_name for post in user.new(limit=None)]
-    counts = Counter(history).most_common(10)
-    counts = [item[0] for item in counts[2:]]
-    user_data = {username:counts}
-    users_data.append(user_data)
+    counts = Counter(history).most_common(12)
+    counts = [item[0].lower() for item in counts[2:]]
+    users_data[username] = counts
+    
     
         
 if __name__ == "__main__":
 
-    pool = Pool(25)
+    pool = Pool(50)
     results = [pool.apply_async(users_top_10, (user,)) for user in store_usernames()]
     pool.close()
     pool.join()
-    
-
+    print(users_data)
 
             
 

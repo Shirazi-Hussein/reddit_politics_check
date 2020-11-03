@@ -10,7 +10,8 @@ right_subs = ['askaconservative',  'benshapiro',  'conservative',  'conservative
               'newpatriotism',  'neoconnwo',  'metacanada',  'paleoconservative',
               'physical_removal',  'republican',  'rightwinglgbt',  'shitpoliticssays',
               'shitneoconssay',  'the3rdposition',  'the_donald',  'thenewrigh',  
-              'tuesday',  'walkaway']
+              'tuesday',  'walkaway', 'socialsusticeinaction', 'kotakuinaction',
+              'tumblrinaction', 'progun']
 
 left_subs = ['accidentallycommunist', 'againsthatesubreddits', 'anarchafeminism', 
              'anarchism', 'anarchocommunism', 'anarchosyndicalism', 'anarchy101', 
